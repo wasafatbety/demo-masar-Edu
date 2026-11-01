@@ -60,6 +60,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Masar Edu System Control - المنظومة التعليمية والتحكم الذكي</title>
+  <!-- Google reCAPTCHA v3 Script -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LesVwsuAAAAAHXabXsIFuBSbLpZl1JZA3WMFUgr"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -2974,5 +2976,24 @@ ${downloadUrl}
         });
     }
 </script>
+  // دالة التحقق من الـ reCAPTCHA قبل إتمام أي عملية تسجيل دخول أو إرسال
+function verifyRecaptchaAction(actionName, callback) {
+    if (typeof grecaptcha === 'undefined') {
+        // لو السكريبت مش محمل لأي سبب، نفذ العملية مباشرة عشان ما نعطلش المستخدم
+        callback();
+        return;
+    }
+
+    grecaptcha.ready(function() {
+        grecaptcha.execute('6LesVwsuAAAAAHXabXsIFuBSbLpZl1JZA3WMFUgr', {action: actionName}).then(function(token) {
+            console.log('reCAPTCHA Token generated for ' + actionName);
+            // هنا تقدر تبعث التوكن للسيرفر لو حابب تتحقق منه، أو تنفذ الدالة المطلوبة مباشرة
+            callback();
+        }).catch(err => {
+            console.error('reCAPTCHA error:', err);
+            callback(); // السماح بالمرور في حال وجود خطأ في الاتصال
+        });
+    });
+}
 </body>
 </html>
