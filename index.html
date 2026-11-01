@@ -2976,25 +2976,24 @@ ${downloadUrl}
         });
     }
 </script>
-  // دالة التحقق من الـ reCAPTCHA قبل إتمام أي عملية تسجيل دخول أو إرسال
-function verifyRecaptchaAction(actionName, callback) {
-    if (typeof grecaptcha === 'undefined') {
-        // لو السكريبت مش محمل لأي سبب، نفذ العملية مباشرة عشان ما نعطلش المستخدم
-        callback();
-        return;
-    }
-
-    grecaptcha.ready(function() {
-        grecaptcha.execute('6LesVwsuAAAAAHXabXsIFuBSbLpZl1JZA3WMFUgr', {action: actionName}).then(function(token) {
-            console.log('reCAPTCHA Token generated for ' + actionName);
-            // هنا تقدر تبعث التوكن للسيرفر لو حابب تتحقق منه، أو تنفذ الدالة المطلوبة مباشرة
+ <script>
+    // دالة التحقق من الـ reCAPTCHA لتطبيق الباصات
+    function verifyBusRecaptcha(actionName, callback) {
+        if (typeof grecaptcha === 'undefined') {
             callback();
-        }).catch(err => {
-            console.error('reCAPTCHA error:', err);
-            callback(); // السماح بالمرور في حال وجود خطأ في الاتصال
+            return;
+        }
+
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6LeBWwsuAAAAAM40h_-6izXzHckBWhHIWG_a9VIs', {action: actionName}).then(function(token) {
+                console.log('Bus reCAPTCHA Token generated for ' + actionName);
+                callback();
+            }).catch(err => {
+                console.error('reCAPTCHA error:', err);
+                callback();
+            });
         });
-    });
-}
-  </script>
+    }
+</script>
 </body>
 </html>
